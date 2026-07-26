@@ -1,0 +1,2 @@
+import Layout from "./Layout";
+export default function ComingSoon({ title, description }: { title: string; description: string }) { return <Layout><div className="page-header"><div><span className="eyebrow">ROUTE 53</span><h1>{title}</h1><p>{description}</p></div></div><section className="card coming-soon"><span className="record-type">COMING SOON</span><h2>{title} is on the way</h2><p>This mock Route 53 section is available for navigation, while the hosted-zone and DNS-record workflows are fully functional.</p></section></Layout>; }
