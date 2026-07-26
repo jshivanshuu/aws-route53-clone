@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: route53-clone-api
+    runtime: docker
+    rootDir: backend
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false
