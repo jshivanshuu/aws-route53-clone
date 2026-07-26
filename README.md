@@ -35,6 +35,38 @@ Use Node.js 20.9 or later for the frontend.
 
 Open `http://localhost:3000`; use any email and a password of at least six characters. The demo sign-in endpoint creates a local account when it does not exist. Interactive API documentation is at `http://localhost:8000/docs`.
 
+## Architecture
+
+```text
+Next.js browser console
+        │  JSON over HTTP + JWT bearer token
+        ▼
+FastAPI API
+  ├── Authentication router
+  ├── Hosted zones router
+  └── DNS records router
+        │  SQLAlchemy ORM
+        ▼
+SQLite database (backend/route53.db)
+```
+
+The frontend keeps the signed-in user and JWT in browser local storage. Every protected request includes that token; the API scopes hosted zones and DNS records to the authenticated user. SQLite is the default local datastore, so zones and records survive server restarts.
+
+## Database schema
+
+```text
+users
+  id (PK) · email (unique) · password_hash · created_at
+    └── hosted_zones
+          id (PK) · owner_id (FK users.id) · domain_name
+          description · is_private · created_at
+            └── dns_records
+                  id (PK) · hosted_zone_id (FK hosted_zones.id)
+                  name · type · value · ttl · description · created_at
+```
+
+Deleting a hosted zone cascades to its DNS records. Each user can access only their own zones and the records within those zones.
+
 ## API
 
 All hosted-zone and record endpoints require `Authorization: Bearer <token>`.
@@ -77,3 +109,11 @@ backend/app/       FastAPI app, models, schemas, routers, authentication
 frontend/pages/    Login, dashboard, hosted-zone list and zone detail views
 frontend/components/ Reusable layout, tables and forms
 ```
+
+## Route 53 workflows included
+
+- Mocked sign-in, sign-out, and persisted browser session
+- Hosted-zone create, view, search, filter, edit, delete, and pagination
+- DNS-record create, view, search, type filtering, edit, delete, and pagination
+- A, AAAA, CNAME, TXT, MX, NS, PTR, SRV, and CAA record validation
+- Mocked Traffic Policies, Health Checks, Resolver, and Profiles navigation pages
