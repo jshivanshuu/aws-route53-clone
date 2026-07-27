@@ -64,16 +64,28 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
 
         <div className="aws-top-right">
-          <span
-            className="aws-top-icon"
+          <button
+            className="aws-header-theme-btn"
             title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
             onClick={toggleTheme}
-            style={{ cursor: "pointer" }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              background: "none",
+              border: "1px solid #485666",
+              borderRadius: "4px",
+              padding: "4px 10px",
+              color: "#ffffff",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+            }}
           >
-            {theme === "dark" ? "☀" : "☾"}
-          </span>
+            <span>{theme === "dark" ? "☀" : "☾"}</span>
+            <span>{theme === "dark" ? "Light" : "Dark"}</span>
+          </button>
           <span className="aws-top-icon" title="CloudShell">[›_]</span>
-          <span className="aws-top-icon" title="Notifications">🔔</span>
           <span className="aws-top-icon" title="Help">❓</span>
           <span className="aws-top-icon" title="Settings">⚙️</span>
           <span className="aws-region-selector">Global ▼</span>
