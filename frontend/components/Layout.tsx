@@ -9,6 +9,7 @@ import awsLogo from "../assets/aws-logo@2x.7c50e6f9.png";
 export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<{ email: string } | null>(null);
   const { theme, toggleTheme } = useTheme();
@@ -16,6 +17,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   useEffect(() => {
     setMounted(true);
     setUser(currentUser());
+    setSidebarOpen(false);
     if (!localStorage.getItem("route53_token")) {
       router.replace("/login");
     }
@@ -142,11 +144,12 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-
       {/* Subheader / Breadcrumb Bar */}
       <div className="aws-console-subheader">
         <div className="aws-sub-left">
-          <button className="aws-menu-circle-btn">☰</button>
+          <button className="aws-menu-circle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+            ☰
+          </button>
           <div className="aws-breadcrumbs">
             <Link href="/dashboard" className="aws-breadcrumb-link">
               Route 53
@@ -160,9 +163,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       {/* Main Layout Body */}
       <div className="aws-console-layout">
-        <Sidebar />
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <main className="aws-main-content">{children}</main>
       </div>
+
 
       {/* Dark Footer */}
       <footer className="aws-console-footer">

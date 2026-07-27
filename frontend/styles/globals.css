@@ -732,18 +732,89 @@
 }
 
 @media (max-width: 960px) {
-  .aws-service-grid-card {
-    grid-template-columns: 1fr;
-    padding: 24px;
-    gap: 32px;
+  .aws-console-top-header {
+    padding: 0 10px;
   }
+  .aws-top-left {
+    gap: 8px;
+  }
+  .aws-cloudshell-btn,
   .aws-search-bar {
     display: none;
   }
-  .aws-console-subheader {
-    padding: 0 12px;
+  .aws-top-right {
+    gap: 10px;
+  }
+  .aws-user-dropdown {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  .aws-light-sidebar {
+    position: fixed;
+    top: 90px;
+    left: -260px;
+    bottom: 0;
+    z-index: 1500;
+    width: 250px;
+    max-height: calc(100vh - 90px);
+    transition: left 0.25s ease;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+  }
+  .aws-light-sidebar.mobile-open {
+    left: 0;
+  }
+  .aws-sidebar-backdrop {
+    position: fixed;
+    top: 90px;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1400;
+  }
+  .aws-main-content {
+    padding: 16px 12px;
+  }
+  .aws-service-grid-card {
+    grid-template-columns: 1fr;
+    padding: 20px 14px;
+    gap: 24px;
+  }
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .page-header div button,
+  .page-header button {
+    width: 100%;
+  }
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .toolbar-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+  .search,
+  select {
+    width: 100%;
+  }
+  .aws-console-footer {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 10px;
+    gap: 8px;
+    text-align: center;
+  }
+  .aws-footer-left,
+  .aws-footer-right {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
   }
 }
+
 
 /* Demo Credentials Box Styling */
 .aws-demo-credentials-box {
