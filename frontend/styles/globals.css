@@ -4,8 +4,8 @@
 .aws-login-page {
   min-height: 100vh;
   background-color: #f7f9fa;
-  background-image: radial-gradient(#eaeded 1px, transparent 1px), linear-gradient(to bottom, #ffffff 0%, #f7f9fa 100%);
-  background-size: 24px 24px, 100% 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 17.32L60 34.64v34.64L30 86.6L0 69.28V34.64L30 17.32zM30 23.1L5 37.53v28.87L30 80.83l25-14.43V37.53L30 23.1z' fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'/%3E%3Cpath d='M30 52l25-14.43M30 52L5 37.53M30 52v28.83' stroke='%23000000' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 60px 104px;
   color: #16191f;
   font-family: "Amazon Ember", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   display: flex;
@@ -271,31 +271,60 @@
   text-decoration: underline;
 }
 @media (max-width: 960px) {
+  .aws-login-header {
+    height: auto;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 16px 8px;
+    align-items: center;
+    justify-content: center;
+  }
+  .aws-header-logo {
+    position: static;
+    margin: 0 auto;
+  }
+  .aws-header-logo img {
+    height: 36px !important;
+  }
+  .aws-header-links {
+    position: static;
+    right: auto;
+    gap: 14px;
+    font-size: 11px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
   .aws-login-container {
     flex-direction: column;
-    padding: 10px 16px 40px;
+    padding: 10px 14px 40px;
+    gap: 20px;
   }
   .aws-card {
     width: 100%;
     max-width: 440px;
-    padding: 24px 20px;
+    padding: 24px 18px;
+  }
+  .aws-card h1 {
+    font-size: 22px;
+  }
+  .aws-radio-card {
+    padding: 12px 14px;
   }
   .aws-promo-card {
     width: 100%;
     max-width: 440px;
-    height: 320px;
-    padding: 28px;
+    height: auto;
+    min-height: 240px;
+    padding: 28px 24px;
   }
   .aws-promo-content h2 {
-    font-size: 22px;
+    font-size: 20px;
   }
-  .aws-login-header {
-    padding: 0 16px;
-  }
-  .aws-header-links {
-    gap: 12px;
-    font-size: 11px;
+  .aws-promo-content p {
+    font-size: 13px;
+    margin-bottom: 16px;
   }
 }
+
 
 
