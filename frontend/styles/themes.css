@@ -345,4 +345,37 @@ html[data-theme="dark"] .link:hover {
   color: #ffffff;
 }
 
+/* Hosted Zone Type Badge (Public / Private) Light & Dark Mode Styling */
+html[data-theme="light"] .badge,
+html[data-theme="light"] .badge-zone-type,
+html[data-theme="light"] .badge-public,
+html[data-theme="light"] .badge-private {
+  background-color: #e6f4ea !important;
+  color: #137333 !important;
+  border: 1px solid #b7e1cd !important;
+  font-weight: 600;
+}
+
+html[data-theme="light"] .zone-meta > div {
+  background-color: #ffffff;
+  border-color: #eaeded;
+  color: #16191f;
+}
+
+html[data-theme="light"] .ns-grid code {
+  background-color: #f8f9fa;
+  border-color: #eaeded;
+  color: #16191f;
+}
+
+html[data-theme="dark"] .badge,
+html[data-theme="dark"] .badge-zone-type,
+html[data-theme="dark"] .badge-public,
+html[data-theme="dark"] .badge-private {
+  background-color: #17382b !important;
+  color: #5ee0a4 !important;
+  border: 1px solid #275943 !important;
+  font-weight: 600;
+}
+
 

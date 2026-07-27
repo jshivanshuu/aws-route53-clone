@@ -126,7 +126,11 @@ export default function ZoneDetail() {
             <div className="zone-meta">
               <div>
                 <span>Zone type</span>
-                <b>{zone.is_private ? "Private hosted zone" : "Public hosted zone"}</b>
+                <b>
+                  <span className={`badge badge-zone-type ${zone.is_private ? "badge-private" : "badge-public"}`}>
+                    {zone.is_private ? "Private hosted zone" : "Public hosted zone"}
+                  </span>
+                </b>
               </div>
               <div>
                 <span>Zone ID</span>
