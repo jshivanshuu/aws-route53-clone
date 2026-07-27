@@ -14,6 +14,11 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
   return response.status === 204 ? (undefined as T) : response.json();
 }
 
+export function prewarmBackend(): void {
+  if (typeof window === "undefined") return;
+  fetch(`${API_URL}/health`, { method: "GET" }).catch(() => {});
+}
+
 export async function downloadExport(zoneId: string, domainName: string, format: "bind" | "json") {
   const token = typeof window !== "undefined" ? localStorage.getItem("route53_token") : null;
   const res = await fetch(`${API_URL}/api/hosted-zones/${zoneId}/export?format=${format}`, {

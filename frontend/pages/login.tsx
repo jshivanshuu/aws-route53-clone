@@ -1,6 +1,6 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { api } from "../lib/api";
+import { api, prewarmBackend } from "../lib/api";
 import awsLogo from "../assets/aws-logo@2x.7c50e6f9.png";
 
 export default function Login() {
@@ -10,6 +10,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    prewarmBackend();
+  }, []);
 
 
   const submit = async (e: FormEvent) => {
