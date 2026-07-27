@@ -94,6 +94,27 @@ export default function Login() {
 
           {/* Form */}
           <form onSubmit={submit} className="aws-login-form">
+            {/* Demo Credentials Helper Box */}
+            <div className="aws-demo-credentials-box">
+              <div className="aws-demo-title">
+                <span>💡 Demo Account Credentials</span>
+              </div>
+              <div className="aws-demo-info">
+                <span>Email: <code>demo@example.com</code></span>
+                <span>Password: <code>demo123</code></span>
+              </div>
+              <button
+                type="button"
+                className="aws-btn-autofill"
+                onClick={() => {
+                  setEmail("demo@example.com");
+                  setPassword("demo123");
+                }}
+              >
+                Autofill demo credentials
+              </button>
+            </div>
+
             <label className="aws-label">
               <span>Email address</span>
               <input
@@ -105,6 +126,7 @@ export default function Login() {
                 onChange={e => setEmail(e.target.value)}
               />
             </label>
+
 
             <label className="aws-label">
               <span>Password</span>

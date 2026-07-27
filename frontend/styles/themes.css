@@ -276,3 +276,29 @@ html[data-theme="dark"] .aws-link,
 html[data-theme="dark"] .aws-btn-demo {
   color: #80cfff !important;
 }
+
+html[data-theme="dark"] .aws-demo-credentials-box {
+  background: #1b2e46;
+  border-color: #80cfff;
+}
+html[data-theme="dark"] .aws-demo-title {
+  color: #80cfff;
+}
+html[data-theme="dark"] .aws-demo-info {
+  color: #f4f7fb;
+}
+html[data-theme="dark"] .aws-demo-info code {
+  background: #111c2b;
+  border-color: #4a5c72;
+  color: #80cfff;
+}
+html[data-theme="dark"] .aws-btn-autofill {
+  background: #283a52 !important;
+  color: #80cfff !important;
+  border: 1px solid #80cfff !important;
+}
+html[data-theme="dark"] .aws-btn-autofill:hover {
+  background: #324967 !important;
+  color: #ffffff !important;
+}
+
