@@ -63,3 +63,93 @@ export function ImportBindModal({ onImport, onClose }: { onImport: (bindText: st
   );
 }
 
+export function DeleteZoneModal({
+  zone,
+  onClose,
+  onConfirm,
+}: {
+  zone: Zone;
+  onClose: () => void;
+  onConfirm: () => Promise<void>;
+}) {
+  const [confirmText, setConfirmText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  const isValid =
+    confirmText.trim().toLowerCase() === "delete" ||
+    confirmText.trim().toLowerCase() === zone.domain_name.toLowerCase();
+
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!isValid) return;
+    setDeleting(true);
+    try {
+      await onConfirm();
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  return (
+    <Modal title="Delete hosted zone" onClose={onClose}>
+      <form onSubmit={submit} style={{ display: "grid", gap: "16px" }}>
+        <div className="aws-warning-box">
+          <div className="aws-warning-icon">⚠️</div>
+          <div className="aws-warning-content">
+            <strong>Deleting a hosted zone is permanent</strong>
+            <p>
+              This action cannot be undone. All DNS records in <b>{zone.domain_name}</b> will be permanently deleted and DNS resolution for this domain will stop working.
+            </p>
+          </div>
+        </div>
+
+        <div className="aws-delete-zone-summary">
+          <div className="aws-summary-row">
+            <span>Domain name</span>
+            <strong>{zone.domain_name}</strong>
+          </div>
+          <div className="aws-summary-row">
+            <span>Hosted zone ID</span>
+            <code>{zone.id}</code>
+          </div>
+          <div className="aws-summary-row">
+            <span>Type</span>
+            <span>{zone.is_private ? "Private hosted zone" : "Public hosted zone"}</span>
+          </div>
+          <div className="aws-summary-row">
+            <span>Total records</span>
+            <span>{zone.record_count}</span>
+          </div>
+        </div>
+
+        <label className="aws-confirm-label">
+          <span>
+            To confirm deletion, type <code>delete</code> or <code>{zone.domain_name}</code> in the field below:
+          </span>
+          <input
+            type="text"
+            required
+            placeholder="delete"
+            value={confirmText}
+            onChange={(e) => setConfirmText(e.target.value)}
+            autoFocus
+          />
+        </label>
+
+        <div className="form-actions">
+          <button type="button" className="secondary" onClick={onClose} disabled={deleting}>
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="aws-btn-danger"
+            disabled={!isValid || deleting}
+          >
+            {deleting ? "Deleting..." : "Delete hosted zone"}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+

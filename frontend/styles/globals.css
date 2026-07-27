@@ -883,6 +883,99 @@ tbody tr {
   text-decoration: underline;
 }
 
+/* AWS Danger Button */
+.aws-btn-danger {
+  background: #d13212 !important;
+  color: #ffffff !important;
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font: inherit;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+.aws-btn-danger:hover:not(:disabled) {
+  background: #b02a0f !important;
+}
+.aws-btn-danger:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed;
+}
+
+/* AWS Warning Alert Box */
+.aws-warning-box {
+  display: flex;
+  gap: 12px;
+  background: #2d2315;
+  border: 1px solid #7d5f1a;
+  border-left: 5px solid #ec7211;
+  border-radius: 6px;
+  padding: 14px 16px;
+  color: #fce8bd;
+}
+.aws-warning-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.aws-warning-content strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: inherit;
+}
+.aws-warning-content p {
+  font-size: 13px;
+  color: inherit;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Zone Summary Box inside Delete Modal */
+.aws-delete-zone-summary {
+  background: #141f2e;
+  border: 1px solid #2d3c51;
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: grid;
+  gap: 10px;
+  font-size: 13px;
+}
+.aws-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.aws-summary-row span:first-child {
+  color: #a8b5c6;
+}
+.aws-summary-row code {
+  background: #0d1520;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #72c7ff;
+}
+.aws-confirm-label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.aws-confirm-label code {
+  background: #27364b;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #ffb84d;
+  font-family: monospace;
+}
+
 
 
 

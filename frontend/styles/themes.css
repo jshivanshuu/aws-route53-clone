@@ -100,6 +100,28 @@ html[data-theme="light"] .secondary {
 html[data-theme="light"] .secondary:hover {
   background: #d5dbdb;
 }
+html[data-theme="light"] .aws-warning-box {
+  background: #fff8e6;
+  border-color: #f7d282;
+  border-left-color: #ec7211;
+  color: #5c4300;
+}
+html[data-theme="light"] .aws-delete-zone-summary {
+  background: #f2f4f8;
+  border-color: #d5dbdb;
+  color: #16191f;
+}
+html[data-theme="light"] .aws-summary-row span:first-child {
+  color: #545b64;
+}
+html[data-theme="light"] .aws-summary-row code {
+  background: #eaeded;
+  color: #0073bb;
+}
+html[data-theme="light"] .aws-confirm-label code {
+  background: #eaeded;
+  color: #d13212;
+}
 html[data-theme="light"] .aws-login-page {
   background-color: #f7f9fa;
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='104' viewBox='0 0 60 104' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 17.32L60 34.64v34.64L30 86.6L0 69.28V34.64L30 17.32zM30 23.1L5 37.53v28.87L30 80.83l25-14.43V37.53L30 23.1z' fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'/%3E%3Cpath d='M30 52l25-14.43M30 52L5 37.53M30 52v28.83' stroke='%23000000' stroke-opacity='0.03' stroke-width='1'/%3E%3C/svg%3E");

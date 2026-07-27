@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import Layout from "../../components/Layout";
 import RecordsTable from "../../components/RecordsTable";
-import { RecordForm, ImportBindModal } from "../../components/Modals";
+import { RecordForm, ImportBindModal, DeleteZoneModal } from "../../components/Modals";
 import Pagination from "../../components/Pagination";
 import { useToast } from "../../components/Notifications";
 import { api, downloadExport, Record, Zone } from "../../lib/api";
@@ -20,6 +20,7 @@ export default function ZoneDetail() {
   const [editing, setEditing] = useState<Record | undefined>();
   const [formOpen, setFormOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const { notify } = useToast();
 
@@ -65,6 +66,17 @@ export default function ZoneDetail() {
       refresh();
     } catch (err) {
       notify(err instanceof Error ? err.message : "Unable to import BIND zone.", "error");
+    }
+  };
+
+  const handleDeleteZone = async () => {
+    if (!zone) return;
+    try {
+      await api(`/api/hosted-zones/${zone.id}`, { method: "DELETE" });
+      notify(`Hosted zone ${zone.domain_name} deleted.`);
+      router.push("/hosted-zones");
+    } catch (error) {
+      notify(error instanceof Error ? error.message : "Unable to delete hosted zone.", "error");
     }
   };
 
@@ -117,6 +129,9 @@ export default function ZoneDetail() {
                 </button>
                 <button className="secondary" onClick={() => downloadExport(zone.id, zone.domain_name, "json")}>
                   Export JSON
+                </button>
+                <button className="secondary" style={{ color: "#ff6b6b" }} onClick={() => setDeleteOpen(true)}>
+                  Delete zone
                 </button>
                 <button onClick={() => { setEditing(undefined); setFormOpen(true); }}>
                   Create record
@@ -179,6 +194,13 @@ export default function ZoneDetail() {
       )}
       {formOpen && <RecordForm record={editing} onClose={() => { setFormOpen(false); setEditing(undefined); }} onSave={save} />}
       {importOpen && <ImportBindModal onClose={() => setImportOpen(false)} onImport={handleImportBind} />}
+      {deleteOpen && zone && (
+        <DeleteZoneModal
+          zone={zone}
+          onClose={() => setDeleteOpen(false)}
+          onConfirm={handleDeleteZone}
+        />
+      )}
     </Layout>
   );
 }
