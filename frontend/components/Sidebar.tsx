@@ -1,86 +1,87 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { currentUser, logout } from "../lib/store";
-import { useTheme } from "./Theme";
-
-const navigation = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/hosted-zones", label: "Hosted zones" },
-  { href: "/traffic-policies", label: "Traffic policies" },
-  { href: "/health-checks", label: "Health checks" },
-  { href: "/resolver", label: "Resolver" },
-  { href: "/profiles", label: "Profiles" },
-];
 
 export default function Sidebar() {
   const router = useRouter();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const user = typeof window !== "undefined" ? currentUser() : null;
-  const { theme, toggleTheme } = useTheme();
+  const [globalOpen, setGlobalOpen] = useState(true);
+  const [vpcOpen, setVpcOpen] = useState(true);
 
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [router.pathname]);
+  const isNavActive = (href: string) => {
+    return router.pathname === href || (href === "/hosted-zones" && router.pathname.startsWith("/hosted-zones"));
+  };
 
   return (
-    <aside className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
-      <div className="sidebar-header">
-        <Link href="/dashboard" className="brand">
-          <span className="brand-mark">53</span>
-          <span>
-            Route 53 <small>DNS management</small>
-          </span>
-        </Link>
-        <button
-          className="mobile-toggle"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle navigation menu"
-        >
-          {mobileOpen ? "✕" : "☰"}
-        </button>
+    <aside className="aws-light-sidebar">
+      <div className="aws-sidebar-title">
+        <span>Route 53</span>
+        <span style={{ cursor: "pointer", fontSize: "14px", color: "#545b64" }}>‹</span>
       </div>
 
-      <div className="sidebar-content">
-        <span className="nav-caption">ROUTE 53</span>
-        <nav>
-          {navigation.map(item => {
-            const isActive =
-              router.pathname === item.href ||
-              (item.href === "/hosted-zones" && router.pathname.startsWith("/hosted-zones"));
-            return (
-              <Link
-                key={item.href}
-                className={isActive ? "active" : ""}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="account">
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          >
-            <span>{theme === "dark" ? "☀" : "☾"}</span>
-            {theme === "dark" ? "Light mode" : "Dark mode"}
-          </button>
-          <span>{user?.email || "Signed in"}</span>
-          <button
-            onClick={() => {
-              logout();
-              router.push("/login");
-            }}
-          >
-            Sign out
-          </button>
+      <nav className="aws-sidebar-nav">
+        <Link href="/dashboard" className={`aws-sidebar-item ${isNavActive("/dashboard") ? "active" : ""}`}>
+          <span>Dashboard</span>
+        </Link>
+        <Link href="/hosted-zones" className={`aws-sidebar-item ${isNavActive("/hosted-zones") ? "active" : ""}`}>
+          <span>Hosted zones</span>
+        </Link>
+        <Link href="/health-checks" className={`aws-sidebar-item ${isNavActive("/health-checks") ? "active" : ""}`}>
+          <span>Health checks</span>
+        </Link>
+        <Link href="/profiles" className={`aws-sidebar-item ${isNavActive("/profiles") ? "active" : ""}`}>
+          <span>Profiles</span>
+        </Link>
+
+        {/* Global Resolver Group */}
+        <div className="aws-sidebar-section-header" onClick={() => setGlobalOpen(!globalOpen)}>
+          <span>{globalOpen ? "▼" : "▶"}</span>
+          <span>Global Resolver</span>
         </div>
-      </div>
+        {globalOpen && (
+          <div style={{ paddingLeft: "12px" }}>
+            <Link href="/resolver" className={`aws-sidebar-item ${isNavActive("/resolver") ? "active" : ""}`}>
+              <span>
+                Global resolvers <span className="aws-badge-new">New</span>
+              </span>
+            </Link>
+            <a href="#" onClick={e => e.preventDefault()} className="aws-sidebar-item">
+              <span>
+                Shared DNS views <span className="aws-badge-new">New</span>
+              </span>
+            </a>
+          </div>
+        )}
+
+        {/* VPC Resolver Group */}
+        <div className="aws-sidebar-section-header" onClick={() => setVpcOpen(!vpcOpen)}>
+          <span>{vpcOpen ? "▼" : "▶"}</span>
+          <span>VPC Resolver</span>
+        </div>
+        {vpcOpen && (
+          <div style={{ paddingLeft: "12px" }}>
+            <a href="#" onClick={e => e.preventDefault()} className="aws-sidebar-item">
+              <span>VPCs</span>
+            </a>
+            <a href="#" onClick={e => e.preventDefault()} className="aws-sidebar-item">
+              <span>Inbound endpoints</span>
+            </a>
+            <a href="#" onClick={e => e.preventDefault()} className="aws-sidebar-item">
+              <span>Outbound endpoints</span>
+            </a>
+            <a href="#" onClick={e => e.preventDefault()} className="aws-sidebar-item">
+              <span>Rules</span>
+            </a>
+            <a href="#" onClick={e => e.preventDefault()} className="aws-sidebar-item">
+              <span>Query logging</span>
+            </a>
+            <a href="#" onClick={e => e.preventDefault()} className="aws-sidebar-item">
+              <span>Outposts</span>
+            </a>
+          </div>
+        )}
+      </nav>
     </aside>
   );
 }
+
 

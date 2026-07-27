@@ -6,10 +6,11 @@ import awsLogo from "../assets/aws-logo@2x.7c50e6f9.png";
 export default function Login() {
   const router = useRouter();
   const [userType, setUserType] = useState<"root" | "iam">("root");
-  const [email, setEmail] = useState("demo@example.com");
-  const [password, setPassword] = useState("demo123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -128,12 +129,13 @@ export default function Login() {
               type="button"
               className="aws-btn-demo"
               onClick={() => {
-                setEmail("demo@example.com");
-                setPassword("demo123");
+                setEmail("");
+                setPassword("");
               }}
             >
-              Reset demo credentials
+              Clear form inputs
             </button>
+
           </form>
         </div>
 
