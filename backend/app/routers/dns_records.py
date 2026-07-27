@@ -27,12 +27,42 @@ def list_records(zone_id: str, db: Session = Depends(get_db), user: User = Depen
     return db.query(DNSRecord).filter(DNSRecord.hosted_zone_id == zone_id).order_by(DNSRecord.name, DNSRecord.type).all()
 
 
+from pydantic import BaseModel
+
+class BINDImportRequest(BaseModel):
+    bind_text: str
+
+
+@router.post("/zone/{zone_id}/import-bind")
+def import_bind_records(zone_id: str, payload: BINDImportRequest, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    zone = zone_for_user(zone_id, user, db)
+    from ..utils.bind import parse_bind_zone
+    parsed = parse_bind_zone(payload.bind_text, zone.domain_name)
+
+    created = []
+    for item in parsed:
+        record = DNSRecord(
+            name=item["name"],
+            type=item["type"],
+            value=item["value"],
+            ttl=item["ttl"],
+            description=item["description"],
+            hosted_zone_id=zone_id
+        )
+        db.add(record)
+        created.append(record)
+
+    db.commit()
+    return {"message": f"Successfully imported {len(created)} records", "count": len(created)}
+
+
 @router.post("/zone/{zone_id}", response_model=DNSRecordOut, status_code=status.HTTP_201_CREATED)
 def create_record(zone_id: str, payload: DNSRecordCreate, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     zone_for_user(zone_id, user, db)
     record = DNSRecord(**payload.model_dump(), hosted_zone_id=zone_id)
     db.add(record); db.commit(); db.refresh(record)
     return record
+
 
 
 @router.put("/record/{record_id}", response_model=DNSRecordOut)

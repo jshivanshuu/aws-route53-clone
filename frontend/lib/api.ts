@@ -13,3 +13,23 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
   }
   return response.status === 204 ? (undefined as T) : response.json();
 }
+
+export async function downloadExport(zoneId: string, domainName: string, format: "bind" | "json") {
+  const token = typeof window !== "undefined" ? localStorage.getItem("route53_token") : null;
+  const res = await fetch(`${API_URL}/api/hosted-zones/${zoneId}/export?format=${format}`, {
+    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  });
+  if (!res.ok) {
+    throw new Error("Unable to export hosted zone.");
+  }
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = format === "bind" ? `${domainName}.zone` : `${domainName}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}
+

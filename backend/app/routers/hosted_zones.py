@@ -50,7 +50,28 @@ def update_zone(zone_id: str, payload: HostedZoneUpdate, db: Session = Depends(g
     return serialize(zone)
 
 
+import json
+
+@router.get("/{zone_id}/export")
+def export_zone(zone_id: str, format: str = "json", db: Session = Depends(get_db), user: User = Depends(get_current_user)):
+    zone = find_zone(zone_id, user, db)
+    serialized_zone = serialize(zone)
+    records = [{"name": r.name, "type": r.type, "value": r.value, "ttl": r.ttl, "description": r.description} for r in zone.records]
+
+    from ..utils.bind import export_bind_zone
+
+    if format.lower() in ("bind", "zone"):
+        content = export_bind_zone(zone.domain_name, records, serialized_zone["nameservers"])
+        filename = f"{zone.domain_name}.zone"
+        return Response(content=content, media_type="text/plain", headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+    else:
+        content = json.dumps({"zone": serialized_zone, "records": records}, indent=2, default=str)
+        filename = f"{zone.domain_name}.json"
+        return Response(content=content, media_type="application/json", headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+
+
 @router.delete("/{zone_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_zone(zone_id: str, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     db.delete(find_zone(zone_id, user, db)); db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
