@@ -302,3 +302,25 @@ html[data-theme="dark"] .aws-btn-autofill:hover {
   color: #ffffff !important;
 }
 
+/* Hosted Zone Table Row & Link Hover Theme Rules */
+html[data-theme="light"] tbody tr:hover {
+  background-color: #f1f8fe !important;
+}
+html[data-theme="light"] .link {
+  color: #0073bb;
+}
+html[data-theme="light"] .link:hover {
+  color: #005288;
+}
+
+html[data-theme="dark"] tbody tr:hover {
+  background-color: #1f3047 !important;
+}
+html[data-theme="dark"] .link {
+  color: #80cfff;
+}
+html[data-theme="dark"] .link:hover {
+  color: #ffffff;
+}
+
+

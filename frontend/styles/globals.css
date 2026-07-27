@@ -776,6 +776,25 @@
   background: #005288 !important;
 }
 
+/* Hosted Zone Table Row & Link Hover Styles */
+tbody tr {
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+}
+
+.link {
+  color: #0073bb;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.link:hover {
+  color: #005288;
+  text-decoration: underline;
+}
+
+
 
 
 
