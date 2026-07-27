@@ -19,7 +19,18 @@ html[data-theme="light"] .aws-light-sidebar {
   background-color: #ffffff;
   border-right-color: #eaeded;
   color: #16191f;
+  scrollbar-color: #cdd6dc #f2f3f3;
 }
+html[data-theme="light"] .aws-light-sidebar::-webkit-scrollbar-track {
+  background: #f2f3f3;
+}
+html[data-theme="light"] .aws-light-sidebar::-webkit-scrollbar-thumb {
+  background: #cdd6dc;
+}
+html[data-theme="light"] .aws-light-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #aab7b8;
+}
+
 html[data-theme="light"] .aws-sidebar-title,
 html[data-theme="light"] .aws-sidebar-section-header {
   color: #16191f;
@@ -127,7 +138,18 @@ html[data-theme="dark"] .aws-light-sidebar {
   background-color: #182434;
   border-right-color: #2b3b51;
   color: #f4f7fb;
+  scrollbar-color: #34445a #172337;
 }
+html[data-theme="dark"] .aws-light-sidebar::-webkit-scrollbar-track {
+  background: #172337;
+}
+html[data-theme="dark"] .aws-light-sidebar::-webkit-scrollbar-thumb {
+  background: #34445a;
+}
+html[data-theme="dark"] .aws-light-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #4a5d78;
+}
+
 html[data-theme="dark"] .aws-sidebar-title {
   color: #f4f7fb;
   border-bottom-color: #2b3b51;
