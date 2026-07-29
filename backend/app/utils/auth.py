@@ -17,7 +17,7 @@ ALGORITHM = "HS256"
 bearer = HTTPBearer()
 
 
-PBKDF2_ITERATIONS = int(os.getenv("PBKDF2_ITERATIONS", "50000"))
+PBKDF2_ITERATIONS = int(os.getenv("PBKDF2_ITERATIONS", "25000"))
 
 
 def hash_password(password: str) -> str:
@@ -34,7 +34,7 @@ def verify_password(password: str, stored: str) -> bool:
             iterations = int(iterations_str)
         elif len(parts) == 2:
             salt, expected = parts
-            iterations = 310000
+            iterations = 25000
         else:
             return False
         actual = hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), iterations).hex()

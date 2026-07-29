@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { api, prewarmBackend } from "../lib/api";
+import { api, prewarmBackend, subscribeBackendStatus, BackendStatus } from "../lib/api";
 import awsLogo from "../assets/aws-logo@2x.7c50e6f9.png";
 
 export default function Login() {
@@ -10,16 +10,26 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [backendStatus, setBackendStatus] = useState<BackendStatus>("warming");
+  const [slowNotice, setSlowNotice] = useState(false);
 
   useEffect(() => {
     prewarmBackend();
+    const unsubscribe = subscribeBackendStatus(setBackendStatus);
+    return () => unsubscribe();
   }, []);
-
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setSlowNotice(false);
+
+    // Show a helpful status notice if request takes > 2.5 seconds (cold start)
+    const slowTimer = setTimeout(() => {
+      setSlowNotice(true);
+    }, 2500);
+
     try {
       const result = await api<{ access_token: string; user: { email: string } }>("/api/auth/login-demo", {
         method: "POST",
@@ -31,7 +41,9 @@ export default function Login() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to sign in");
     } finally {
+      clearTimeout(slowTimer);
       setLoading(false);
+      setSlowNotice(false);
     }
   };
 
@@ -47,6 +59,11 @@ export default function Login() {
         <div className="aws-header-links">
 
 
+          <span className={`aws-backend-badge aws-badge-${backendStatus}`}>
+            {backendStatus === "ready" && "🟢 Server Connected"}
+            {backendStatus === "warming" && "⚡ Server Waking Up..."}
+            {backendStatus === "offline" && "🔴 Server Offline"}
+          </span>
           <a href="#" onClick={e => e.preventDefault()}>Provide feedback</a>
           <a href="#" onClick={e => e.preventDefault()}>Multi-session disabled ▼</a>
           <a href="#" onClick={e => e.preventDefault()}>English ▼</a>
@@ -147,8 +164,14 @@ export default function Login() {
 
             {error && <div className="aws-error">{error}</div>}
 
+            {slowNotice && (
+              <div className="aws-slow-notice">
+                <span>⚡ Backend container waking up on Render (free tier cold start). This initial sign-in request may take ~20-30s...</span>
+              </div>
+            )}
+
             <button type="submit" className="aws-btn-primary" disabled={loading}>
-              {loading ? "Signing in…" : "Next"}
+              {loading ? (slowNotice ? "Waking up server..." : "Signing in…") : "Next"}
             </button>
 
             <button
